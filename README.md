@@ -1,15 +1,39 @@
-# Лабораторные работы по программированию
+# Лабораторная 5 · Настройки линтера / форматтера учебного проекта
 
-Выберите работу, чтобы открыть её ветку с условием и решением.
+**Касьян А.С. · Вариант 12**
 
-| № | Работа |
-|---:|---|
-| 1 | [Структурный и объектно-ориентированный подходы](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-01) |
-| 2 | [Scrum, Kanban и XP](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-02) |
-| 3 | [Юнит-тесты и покрытие](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-03) |
-| 4 | [Юнит-тесты и BDD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-04) |
-| 5 | [Ветки Git и разрешение конфликтов](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-05) |
-| 6 | [Пайплайн CI/CD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-06) |
-| 7 | [Docker и Docker Compose](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-07) |
-| 8 | [Документация и OpenAPI](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-08) |
-| 9 | [ИИ в разработке и тестировании](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-09) |
+## Постановка
+
+Конфиг ESLint/Prettier/ruff/editorconfig (на выбор). Ветка `stricter-rules` усиливает правила; ветка `team-exceptions` ослабляет или меняет те же опции. Разрешите конфликт конфига, кратко обоснуйте итог в README.
+
+## Как возник конфликт
+
+От исходной ветки с оглавлением создана база `editor-base` с четырьмя пробелами и пределом в 100 символов. Две рабочие ветки редактируют одну строку. Проследить изменения можно через `git log --graph --oneline --all`.
+
+| Этап | Команда или действие |
+|---|---|
+| Подготовка | `git switch -c editor-base main`, добавить .editorconfig и сделать коммит |
+| Строгие правила | `git switch -c stricter-rules editor-base`, установить 79 |
+| Предложение команды | `git switch -c team-exceptions editor-base`, установить 120 |
+| Интеграция | В lab-05 принять изменения team-exceptions и выполнить `git merge stricter-rules` |
+| Проверка конфликта | `git ls-files -u` показывает базу и обе версии одного файла |
+
+Фрагмент файла после остановки слияния
+
+```text
+<<<<<<< HEAD
+max_line_length = 120
+=======
+max_line_length = 79
+>>>>>>> stricter-rules
+```
+
+В итоговом файле предел в 88 символов сохраняет читаемость кода. Для тестовых данных в tests/*.py разрешены 120 символов, чтобы таблицы примеров читались построчно. После удаления маркеров выполнены `git add .editorconfig` и `git commit`. Оба родителя доступны через `git show --format=raw 824264b`.
+
+## Удалённый репозиторий
+
+```sh
+git remote -v
+git push -u origin lab-05 stricter-rules team-exceptions
+git pull --ff-only origin lab-05
+```
