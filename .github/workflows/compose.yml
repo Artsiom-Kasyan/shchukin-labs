@@ -1,0 +1,14 @@
+name: Проверка бронирования в Compose
+on:
+  push:
+    branches: [lab-07]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp .env.example .env
+      - run: docker compose up -d --build --wait
+      - run: bash smoke.sh
+      - if: failure()
+        run: docker compose logs

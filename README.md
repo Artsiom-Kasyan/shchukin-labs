@@ -1,15 +1,20 @@
-# Лабораторные работы по программированию
+# Лабораторная 7 · Бронирование аудиторий вуза
 
-Выберите работу, чтобы открыть её ветку с условием и решением.
+**Касьян А.С. · Вариант 12**
 
-| № | Работа |
-|---:|---|
-| 1 | [Структурный и объектно-ориентированный подходы](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-01) |
-| 2 | [Scrum, Kanban и XP](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-02) |
-| 3 | [Юнит-тесты и покрытие](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-03) |
-| 4 | [Юнит-тесты и BDD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-04) |
-| 5 | [Ветки Git и разрешение конфликтов](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-05) |
-| 6 | [Пайплайн CI/CD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-06) |
-| 7 | [Docker и Docker Compose](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-07) |
-| 8 | [Документация и OpenAPI](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-08) |
-| 9 | [ИИ в разработке и тестировании](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-09) |
+## Постановка
+
+API бронирований + PostgreSQL. Compose: `api` и `db`. Забронировать слот, конфликт по времени, список на дату. `depends_on` + краткое описание готовности БД.
+
+## Запуск с нуля
+
+```sh
+cp .env.example .env
+docker compose up -d --build --wait
+bash smoke.sh
+docker compose down
+```
+
+Откройте http://localhost:8000/docs для ручной проверки. POST /bookings принимает room, start и end с часовым поясом. При успехе возвращает 201 и идентификатор, при пересечении в той же аудитории — 409. Соседние слоты могут касаться границами. GET /bookings?day=2026-10-01 вернёт все брони, пересекающие сутки по UTC.
+
+Compose ждёт готовности PostgreSQL по TCP. При первом запуске БД выполняет app/schema.sql, а именованный том хранит бронь между запусками. API проверяет доступ к таблице через /health. Ограничение EXCLUDE в самой БД предотвращает двойную запись даже при одновременных запросах.
