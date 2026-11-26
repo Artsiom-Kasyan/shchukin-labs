@@ -1,15 +1,13 @@
-# Лабораторные работы по программированию
+# Лабораторная 6 · Учёт долгов по лабораторным
 
-Выберите работу, чтобы открыть её ветку с условием и решением.
+**Касьян А.С. · Вариант 12**
 
-| № | Работа |
-|---:|---|
-| 1 | [Структурный и объектно-ориентированный подходы](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-01) |
-| 2 | [Scrum, Kanban и XP](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-02) |
-| 3 | [Юнит-тесты и покрытие](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-03) |
-| 4 | [Юнит-тесты и BDD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-04) |
-| 5 | [Ветки Git и разрешение конфликтов](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-05) |
-| 6 | [Пайплайн CI/CD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-06) |
-| 7 | [Docker и Docker Compose](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-07) |
-| 8 | [Документация и OpenAPI](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-08) |
-| 9 | [ИИ в разработке и тестировании](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-09) |
+## Постановка
+
+Структура «студент → список несданных лаб»; операции add/close/count. Тесты. Пайплайн и простой деплой отчёта/страницы статуса.
+
+## Проверка и выпуск отчёта
+
+`python3 -m unittest -v` проверяет добавление, повторную регистрацию, закрытие долга и ошибки. `python3 debts.py` печатает демонстрационный отчёт. Долги хранятся в памяти, номер работы уникален в пределах студента.
+
+При push в lab-06 и при pull request в эту ветку GitHub Actions запускает тесты. Для выпуска отчёта поставьте на проверяемый коммит тег вида `debts-v1` и отправьте его в origin. Стадия report выполняется только после успешных тестов на теге и сохраняет report.md в архиве debt-report. Результат и архив доступны в [истории запусков](https://github.com/Artsiom-Kasyan/shchukin-labs/actions/workflows/debts.yml).
