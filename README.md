@@ -46,4 +46,4 @@ def init_parking(n: int) -> Dict[int, Optional[str]]:
 
 В виртуальном окружении установите зависимости командой `python -m pip install -r requirements.txt`. Для обычного прогона выполните `python -m pytest -q`, для отчёта по строкам — `python -m pytest --cov=main --cov-report=term-missing --cov-fail-under=90`.
 
-Контрольный прогон: 6 проверок прошли, покрыты 22 из 22 исполняемых строк main.py (100 
+Контрольный прогон: 6 проверок прошли, покрыты 22 из 22 исполняемых строк main.py (100 %).
