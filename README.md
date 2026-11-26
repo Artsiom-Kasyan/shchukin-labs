@@ -1,15 +1,31 @@
-# Лабораторные работы по программированию
+# Лабораторная 4 · Проверка ISBN-10 (упрощённо)
 
-Выберите работу, чтобы открыть её ветку с условием и решением.
+**Касьян А.С. · Вариант 12**
 
-| № | Работа |
-|---:|---|
-| 1 | [Структурный и объектно-ориентированный подходы](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-01) |
-| 2 | [Scrum, Kanban и XP](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-02) |
-| 3 | [Юнит-тесты и покрытие](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-03) |
-| 4 | [Юнит-тесты и BDD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-04) |
-| 5 | [Ветки Git и разрешение конфликтов](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-05) |
-| 6 | [Пайплайн CI/CD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-06) |
-| 7 | [Docker и Docker Compose](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-07) |
-| 8 | [Документация и OpenAPI](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-08) |
-| 9 | [ИИ в разработке и тестировании](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-09) |
+## Постановка
+
+Реализуйте проверку контрольной суммы ISBN-10 (цифры и возможный `X` в конце):
+
+```python
+# main.py
+def clean_isbn(raw: str) -> str:
+    """Убрать дефисы и пробелы."""
+    ...
+
+def is_valid_isbn10(raw: str) -> bool:
+    ...
+```
+
+BDD: валидный ISBN, неверная контрольная цифра, неверная длина.
+
+## Запуск
+
+```sh
+python -m pip install -r requirements.txt
+python -m pytest -q
+python -m behave
+```
+
+## Разработка через тесты
+
+Сначала в истории ветки зафиксированы тесты и выданные заглушки. На этом этапе проверки очистки, известного ISBN и контрольной X не проходили. Для зелёного прогона добавлены очистка строки и взвешенная сумма с весами от 10 до 1. Проверка формата предшествует преобразованию в числа, поэтому буква X допустима только в последней позиции. Таблица Gherkin повторяет четыре ситуации со стороны читателя.
