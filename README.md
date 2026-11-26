@@ -1,15 +1,13 @@
-# Лабораторные работы по программированию
+# Лабораторная 1 · Парковка
 
-Выберите работу, чтобы открыть её ветку с условием и решением.
+**Касьян А.С. · Вариант 12**
 
-| № | Работа |
-|---:|---|
-| 1 | [Структурный и объектно-ориентированный подходы](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-01) |
-| 2 | [Scrum, Kanban и XP](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-02) |
-| 3 | [Юнит-тесты и покрытие](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-03) |
-| 4 | [Юнит-тесты и BDD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-04) |
-| 5 | [Ветки Git и разрешение конфликтов](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-05) |
-| 6 | [Пайплайн CI/CD](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-06) |
-| 7 | [Docker и Docker Compose](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-07) |
-| 8 | [Документация и OpenAPI](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-08) |
-| 9 | [ИИ в разработке и тестировании](https://github.com/Artsiom-Kasyan/shchukin-labs/tree/lab-09) |
+## Постановка
+
+Места с номерами; машина — номерной знак. Операции: занять свободное место, освободить место, найти место по номеру машины, число свободных мест.
+
+## Запуск
+
+Требуется Python 3.10 или новее. Запустите `python3 structural.py` и `python3 oop.py`. Оба примера занимают места 1 и 3, находят вторую машину на месте 3 и показывают одно свободное место. После выезда первой машины свободны два места.
+
+В структурной версии функции получают словарь мест явно. В объектной версии парковка отвечает за уникальность номера машины, а отдельное место управляет въездом и выездом.
