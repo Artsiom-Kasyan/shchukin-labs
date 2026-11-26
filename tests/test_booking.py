@@ -25,3 +25,17 @@ class BookingTests(unittest.TestCase):
         for pair in [(0, 0), (700, 650), (-1, 200), (1400, 1441)]:
             with self.subTest(pair=pair), self.assertRaises(ValueError):
                 overlaps(540, 630, *pair)
+
+    def test_matches_occupied_minutes(self):
+        # Перебираем все 15 непустых слотов в пяти минутах.
+        slots = [(start, end) for start in range(5) for end in range(start + 1, 6)]
+        for a in slots:
+            for b in slots:
+                with self.subTest(a=a, b=b):
+                    shared_minutes = set(range(*a)).intersection(range(*b))
+                    self.assertEqual(overlaps(*a, *b), bool(shared_minutes))
+
+    def test_only_whole_minutes(self):
+        for value in [True, 0.5, "0"]:
+            with self.subTest(value=value), self.assertRaises(TypeError):
+                overlaps(value, 2, 1, 3)
