@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: Бронирование аудиторий
+  version: 1.0.0
+servers:
+  - url: http://localhost:4010
+    description: Локальный mock-сервер
+paths:
+  /rooms:
+    get:
+      operationId: listRooms
+      summary: Список аудиторий
+      responses:
+        '200':
+          description: Справочник помещений
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Room' }
+  /rooms/{roomId}/availability:
+    parameters:
+      - name: roomId
+        in: path
+        required: true
+        schema: { type: string, example: Б-214 }
+    get:
+      operationId: checkAvailability
+      summary: Проверить один интервал
+      parameters:
+        - name: start
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: end
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Доступность на момент запроса
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [available]
+                properties:
+                  available: { type: boolean, example: true }
+        '404': { description: Аудитория неизвестна }
+        '422': { description: Неверный интервал }
+  /bookings:
+    post:
+      operationId: createBooking
+      summary: Создать бронь
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Slot' }
+      responses:
+        '201':
+          description: Созданная бронь
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Booking' }
+        '404': { description: Аудитория неизвестна }
+        '409': { description: Интервал уже занят }
+        '422': { description: Неверный интервал }
+  /bookings/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    get:
+      operationId: getBooking
+      summary: Найти подтверждение по номеру
+      responses:
+        '200':
+          description: Действующая бронь
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Booking' }
+        '404': { description: Бронь отсутствует }
+    delete:
+      operationId: cancelBooking
+      summary: Отменить бронь
+      responses:
+        '204': { description: Бронь отменена }
+        '404': { description: Бронь отсутствует }
+components:
+  schemas:
+    Room:
+      type: object
+      required: [roomId, capacity]
+      properties:
+        roomId: { type: string, example: Б-214 }
+        capacity: { type: integer, minimum: 1, example: 24 }
+    Slot:
+      type: object
+      required: [roomId, start, end]
+      properties:
+        roomId: { type: string, example: Б-214 }
+        start: { type: string, format: date-time, example: '2026-10-01T09:00:00Z' }
+        end: { type: string, format: date-time, example: '2026-10-01T10:30:00Z' }
+    Booking:
+      allOf:
+        - $ref: '#/components/schemas/Slot'
+        - type: object
+          required: [id]
+          properties:
+            id: { type: integer, minimum: 1, example: 42 }
